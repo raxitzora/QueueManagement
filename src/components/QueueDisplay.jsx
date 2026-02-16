@@ -4,13 +4,13 @@ function QueueDisplay({ queue, onUpdateStatus, onRemove }) {
     const getStatusColor = (status) => {
         switch (status) {
             case 'waiting':
-                return 'var(--warning)';
+                return 'bg-yellow-100 text-yellow-700';
             case 'serving':
-                return 'var(--success)';
+                return 'bg-green-100 text-green-700';
             case 'completed':
-                return 'var(--info)';
+                return 'bg-blue-100 text-blue-700';
             default:
-                return 'var(--text)';
+                return 'bg-gray-100 text-gray-700';
         }
     }
 
@@ -26,9 +26,9 @@ function QueueDisplay({ queue, onUpdateStatus, onRemove }) {
                 </div>
             ) : (
                 <div className="space-y-4">
-                    {queue.map((customer) => (
+                    {queue.map((customer, index) => (
                         <div
-                            key={customer.id}
+                            key={customer.id || index}
                             className="bg-white border border-gray-200 shadow-md rounded-xl p-6 flex items-center justify-between hover:shadow-lg transition"
                         >
                             <div>
@@ -40,8 +40,10 @@ function QueueDisplay({ queue, onUpdateStatus, onRemove }) {
                                 </p>
                             </div>
 
-                            <div className="px-4 py-1 text-sm font-medium rounded-full bg-gray-100 text-gray-700">
-                                {customer.status}
+                            <div
+                                className={`px-4 py-1 text-sm font-medium rounded-full ${getStatusColor(customer.status || 'waiting')}`}
+                            >
+                                {customer.status || 'waiting'}
                             </div>
                         </div>
                     ))}
